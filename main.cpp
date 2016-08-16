@@ -1,9 +1,10 @@
 #include "mbed.h"
- 
+
+DigitalOut myled(LED1);
 Serial gps(D1, D0);        // tx, rx
 Serial pc(USBTX, USBRX);    // tx, rx
  
-int main() {
+void pc_rx() {
 
       unsigned char c;
       int i,rlock;
@@ -54,4 +55,14 @@ int main() {
         }
       }//if
     }//while
-}//main
+}
+
+int main(){
+    gps.attach(pc_rx,Serial::RxIrq);
+    while(1) {
+        myled = 1;
+        wait(0.2);
+        myled = 0;
+        wait(0.2);
+    }
+}
