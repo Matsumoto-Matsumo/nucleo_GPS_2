@@ -10,14 +10,14 @@ http://www.hiramine.com/physicalcomputing/general/gps_nmeaformat.html
 Nucleo  GPSモジュール
 GND-----GND-----------0V
 ５ｖ------VIN
-D0------TX
-D1------RX
+pa10------TX
+pa9------RX
 */
 #include "mbed.h"
 
 DigitalOut myled(LED1);
-Serial gps(D1, D0);       // tx, rx
-Serial pc(PA_2, PA_3);    // tx, rx
+Serial gps(PA_9, PA_10);       // tx, rx
+Serial pc(USBTX, USBRX);    // tx, rx
 int i,rlock,mode;
 char gps_data[256],gps2_data[256];
 char ns,ew;
@@ -64,7 +64,7 @@ void getGPS() {
 int main(){
   pc.printf("*** GPS GT-720F ***");
   gps.baud(9600);
-  pc.baud(115200);
+  pc.baud(9600);
   gps.attach(getGPS,Serial::RxIrq);
   while(1) {
     myled = 1;
